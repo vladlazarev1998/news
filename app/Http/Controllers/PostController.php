@@ -31,7 +31,7 @@ class PostController extends Controller
     public function hide(string $post_id)
     {
         try {
-            $this->postService->hide($post_id);
+            $this->postService->hide((int)$post_id);
         } catch (ModelNotFoundException) {
             abort(404, 'Post not found');
         } catch (Exception $e) {
