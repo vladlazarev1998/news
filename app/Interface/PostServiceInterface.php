@@ -9,7 +9,7 @@ interface PostServiceInterface
 {
     public function getAllActive(): Collection;
 
-    public function getActive(int $post_id): Post;
+    public function getActiveBySlug(string $slug): Post;
 
-    public function hide(int $post_id): void;
+    public function hideBySlug(string $slug): void;
 }

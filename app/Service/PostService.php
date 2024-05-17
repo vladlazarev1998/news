@@ -14,14 +14,14 @@ class PostService implements PostServiceInterface
         return Post::active()->get();
     }
 
-    public function getActive(int $post_id): Post
+    public function getActiveBySlug(string $slug): Post
     {
-        return Post::active()->where('id', $post_id)->firstOrFail();
+        return Post::active()->where('slug', $slug)->firstOrFail();
     }
 
-    public function hide(int $post_id): void
+    public function hideBySlug(string $slug): void
     {
-        $post = Post::findOrFail($post_id);
+        $post = Post::where('slug', $slug)->firstOrFail();
         $post->update(['status' => PostStatus::HIDDEN]);
     }
 }

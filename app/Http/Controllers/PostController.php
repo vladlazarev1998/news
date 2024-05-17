@@ -15,14 +15,14 @@ class PostController extends Controller
         return PostResource::collection($this->postService->getAllActive());
     }
 
-    public function show(string $post_id)
+    public function show(string $slug)
     {
-        return PostResource::make($this->postService->getActive((int)$post_id))->withBody();
+        return PostResource::make($this->postService->getActiveBySlug($slug))->withBody();
     }
 
-    public function hide(string $post_id)
+    public function hide(string $slug)
     {
-        $this->postService->hide((int)$post_id);
+        $this->postService->hideBySlug($slug);
 
         return response()->json([
             'message' => 'Success hidden'
