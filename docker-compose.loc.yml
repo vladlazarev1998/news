@@ -1,0 +1,62 @@
+version: "3.7"
+services:
+    app:
+        build:
+            args:
+                user: news_user
+                uid: 1000
+            context: ./
+            dockerfile: Dockerfile
+        image: ${APP_SLUG}
+        container_name: ${APP_SLUG}-app
+        restart: unless-stopped
+        working_dir: /var/www/news/
+        volumes:
+            - ./:/var/www/news
+        networks:
+            - ${APP_SLUG}
+        depends_on:
+            - nginx
+            - db
+    db:
+        image: mysql:8.0
+        container_name: ${APP_SLUG}-db
+        healthcheck:
+            test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+            timeout: 20s
+            retries: 10
+        restart: unless-stopped
+        command:
+            --sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_USER: ${DB_USERNAME}
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        volumes:
+            - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+            - ${APP_SLUG}-db-data:/var/lib/mysql
+        networks:
+            - ${APP_SLUG}
+
+    nginx:
+        image: nginx:latest
+        container_name: ${APP_SLUG}-nginx
+        restart: unless-stopped
+        ports:
+            - 8082:80
+        volumes:
+            - ./:/var/www/news
+            - ./docker-compose/nginx/news.conf:/etc/nginx/conf.d/news.conf
+        networks:
+            - ${APP_SLUG}
+
+
+volumes:
+    news-db-data:
+
+networks:
+    news:
+        driver: bridge
