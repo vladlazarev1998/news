@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PostResource;
 use App\Interface\PostServiceInterface;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PostController extends Controller
 {
@@ -17,12 +19,24 @@ class PostController extends Controller
 
     public function show(string $slug)
     {
-        return PostResource::make($this->postService->getActiveBySlug($slug))->withBody();
+        try {
+            return PostResource::make($this->postService->getActiveBySlug($slug))->withBody();
+        } catch (ModelNotFoundException) {
+            abort(404, 'Post not found');
+        } catch (Exception $e) {
+            abort(500, $e->getMessage());
+        }
     }
 
-    public function hide(string $slug)
+    public function hide(string $post_id)
     {
-        $this->postService->hideBySlug($slug);
+        try {
+            $this->postService->hide($post_id);
+        } catch (ModelNotFoundException) {
+            abort(404, 'Post not found');
+        } catch (Exception $e) {
+            abort(500, $e->getMessage());
+        }
 
         return response()->json([
             'message' => 'Success hidden'

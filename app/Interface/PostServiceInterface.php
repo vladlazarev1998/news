@@ -11,5 +11,5 @@ interface PostServiceInterface
 
     public function getActiveBySlug(string $slug): Post;
 
-    public function hideBySlug(string $slug): void;
+    public function hide(int $post_id): void;
 }

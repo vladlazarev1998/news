@@ -7,4 +7,4 @@ Route::get('/news', [PostController::class, 'index']);
 
 Route::get('/news/{slug}', [PostController::class, 'show']);
 
-Route::put('/news/{slug}', [PostController::class, 'hide']);
+Route::put('/news/{id}', [PostController::class, 'hide']);

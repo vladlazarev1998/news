@@ -19,9 +19,9 @@ class PostService implements PostServiceInterface
         return Post::active()->where('slug', $slug)->firstOrFail();
     }
 
-    public function hideBySlug(string $slug): void
+    public function hide(int $post_id): void
     {
-        $post = Post::where('slug', $slug)->firstOrFail();
+        $post = Post::findOrFail($post_id);
         $post->update(['status' => PostStatus::HIDDEN]);
     }
 }
