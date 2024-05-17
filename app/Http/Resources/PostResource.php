@@ -30,7 +30,7 @@ class PostResource extends JsonResource
             'slug' => $this->slug,
             'body' => $this->full_body ? $this->body : Str::words($this->body, 10),
             'status' => $this->status,
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s')
         ];
     }
 }
