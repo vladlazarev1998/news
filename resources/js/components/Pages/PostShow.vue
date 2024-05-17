@@ -29,15 +29,15 @@ const hidePost = (post_id) => {
         Back to list
     </router-link>
     <div v-if="post.title">
-        <div class="d-flex align-items-center justify-content-between mt-3">
+        <div class="d-flex align-items-center justify-content-between mt-3 mb-3">
             <h1>{{ post.title }}</h1>
-            <button @click="hidePost(post.id)" type="button" class="btn btn-danger">Hide post</button>
+            <button @click="hidePost(post.id)" type="button" class="btn btn-dark">Hide post</button>
         </div>
-        <div class="text">
+        <div class="text mb-4">
             {{ post.body }}
         </div>
-        <div class="date">
-            Created: {{ post.created_at }}
+        <div class="date fs-6">
+            <span class="fw-bold">Created:</span> <span class="fw-light">{{ post.created_at }}</span>
         </div>
     </div>
     <div v-else>
