@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enum\PostStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -24,7 +25,7 @@ class PostFactory extends Factory
             'slug' => $this->faker->slug,
             'cropped_body' => Str::limit($body),
             'body' => $body,
-            'status' => $this->faker->randomElement(['active', 'hidden'])
+            'status' => $this->faker->randomElement([PostStatus::ACTIVE, PostStatus::HIDDEN])
         ];
     }
 }
