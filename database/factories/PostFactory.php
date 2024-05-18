@@ -21,7 +21,7 @@ class PostFactory extends Factory
         $body = $this->faker->text(400);
 
         return [
-            'title' => $this->faker->title,
+            'title' => $this->faker->word(),
             'slug' => $this->faker->slug,
             'cropped_body' => Str::limit($body),
             'body' => $body,
